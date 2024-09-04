@@ -4,6 +4,7 @@ import json
 import chardet
 from tree_sitter import Language, Parser
 import tree_sitter_c as tsc
+import numpy as np
 
 
 CWD = os.path.dirname(os.path.abspath(__file__))
@@ -12,6 +13,7 @@ C_LANGUAGE = Language(tsc.language())
 parser = Parser()
 parser.language = C_LANGUAGE
 
+np_rng = np.random.RandomState(seed=57)
 
 def build_byte_to_char_map(byte_sequence):
     byte_to_char_map = []
