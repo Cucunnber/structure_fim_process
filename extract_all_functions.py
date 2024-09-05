@@ -53,11 +53,9 @@ def process_file(c_file):
     return func_table
 
 
-# 主函数：并行处理所有文件
 def collect_functions(project_directory, output_name):
     c_source_files = find_c_source_files(project_directory, skip_dirs=dirs_to_skip)
 
-    # 使用 multiprocessing 并行处理文件
     with Pool(processes=cpu_count()) as pool:
         results = list(tqdm.tqdm(pool.imap(process_file, c_source_files), total=len(c_source_files)))
 

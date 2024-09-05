@@ -13,7 +13,22 @@ C_LANGUAGE = Language(tsc.language())
 parser = Parser()
 parser.language = C_LANGUAGE
 
-np_rng = np.random.RandomState(seed=57)
+
+def get_char_seq_idx(node, byte_to_char):
+    """
+    get tree-sitter node's idx of char sequence by byte_to_char map
+    """
+    start_idx = byte_to_char[node.start_byte]
+    end_idx = byte_to_char[node.end_byte]
+    return start_idx, end_idx
+
+
+def get_fim_span(char_seq, idx1, idx2):
+    prefix = char_seq[:idx1]
+    middle = char_seq[idx1:idx2]
+    suffix = char_seq[idx2:]
+    return prefix, middle, suffix
+
 
 def build_byte_to_char_map(byte_sequence):
     byte_to_char_map = []
