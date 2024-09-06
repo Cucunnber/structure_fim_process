@@ -5,8 +5,10 @@ from multiprocessing import Pool, cpu_count
 dirs_to_skip = ["grpcplugin", "resource", "webplugin", "verifysuite"]
 
 
-# 提取函数定义节点
 def extract_functions(code_byte_sequence):
+    """
+    capture function definition node
+    """
     tree = parser.parse(code_byte_sequence)
     root_node = tree.root_node
     query = C_LANGUAGE.query('(function_definition) @func_def')
@@ -15,8 +17,10 @@ def extract_functions(code_byte_sequence):
     return function_nodes
 
 
-# 获取函数名节点
 def get_function_node_name(function_node):
+    """
+    capture function name node
+    """
     query = C_LANGUAGE.query("""
     (function_definition
       (function_declarator
@@ -26,13 +30,14 @@ def get_function_node_name(function_node):
         return node.text.decode('utf-8')
 
 
-# 转换路径为Linux格式
 def convert_to_linux_path(path):
+    """
+    convert path to standard Linux path style
+    """
     norm_path = os.path.normpath(path)
     return norm_path.replace(os.sep, '/')
 
 
-# 处理单个文件
 def process_file(c_file):
     source_code = versatile_read_file(c_file)
     if not source_code:
@@ -59,7 +64,6 @@ def collect_functions(project_directory, output_name):
     with Pool(processes=cpu_count()) as pool:
         results = list(tqdm.tqdm(pool.imap(process_file, c_source_files), total=len(c_source_files)))
 
-    # 汇总所有结果
     func_table = [item for sublist in results if sublist for item in sublist]
 
     save_path = output_name
