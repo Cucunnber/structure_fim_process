@@ -328,6 +328,45 @@ def long_loop_process(function_string, start_idx, end_idx):
         return *(get_fim_span_half(function_string, start_idx, end_idx2)), "LOOP_BLOCK_LONG"
 
 
+def extract_comment_block(function_string):
+    byte_seq = function_string.encode('utf-8')
+    byte_to_char = build_byte_to_char_map(byte_seq)
+    tree = parser.parse(byte_seq)
+    root = tree.root_node
+    query = C_LANGUAGE.query("(comment) @comment")
+    captures = query.captures(root)
+    if not captures:
+        return random_select_multi_line(function_string)
+    selected_node = random.choice(captures)[0]
+
+    idx1, idx2 = get_char_seq_idx(selected_node, byte_to_char)
+    remain = function_string[idx2+1:]
+    remain_lines = remain.splitlines()
+
+    break_idx = 0
+    for i in range(len(remain_lines)):
+        if remain_lines[i] == '':
+            break_idx = i
+            break
+
+    code_block_lines = remain_lines[:break_idx]
+    middle = '\n'.join(code_block_lines)
+    suffix = '\n' + '\n'.join(remain_lines[break_idx:])
+
+    offset = 0
+    for char in middle:
+        if char == ' ' or char == '\t':
+            offset += 1
+        else:
+            break
+
+    new_middle = middle[offset:]
+    prefix = function_string[:idx2] + '\n' + middle[:offset]
+    flag = "COMMENT_BLOCK"
+
+    return prefix, new_middle, suffix, flag
+
+
 def extract_loop_block(function_string):
     """
     random  select while/for/macro_func loop block
@@ -404,7 +443,7 @@ def process_single_item(json_data):
     else:
         # 选择处理函数
         process_options = [single_line_process, extract_expression_statement, extract_binary_expression,
-                           random_select_multi_line, extract_if_block, extract_loop_block,
+                           extract_comment_block, extract_if_block, extract_loop_block,
                            extract_switch_case_block, empty_process]
         probs = [0.25, 0.2, 0.05, 0.1, 0.1, 0.15, 0.05, 0.1]
 
