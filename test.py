@@ -1,33 +1,74 @@
+import parser
+
 from function_process import *
 
 
 
 # 示例用法
-function_string = """void switch_case_example(int value) {
-    switch (value) {
-        case 1:
-        {
-            printf("You selected One\n");
-            break;
-        }
-        case 2:
-        {
-            printf("You selected Two\n");
-            break;
-        }
-        case 3:
-        {
-            printf("You selected Three\n");
-            break;
-        }
-        default:
-        {
-            printf("Unknown selection\n");
-            break;
-        }
-    }
-}"""
+function_string = """#include <stdio.h>
 
-_, b, _ = extract_switch_case_block(function_string)
+int main() {
+    int day;
+    printf("Enter a number (1-7) to select a day of the week: ");
+    scanf("%d", &day);
 
-print(b)
+    switch (pstSockOpt->iName)
+    {
+        /* DOT radio ifIndex */
+        case DOT11_OPTION_ENABLEPROTOATRADIO:
+        {
+            iTmpErr = SOCKFRM_CopyIn(pstSockOpt, &ifIndex, (UINT)sizeof(IF_INDEX), (UINT)sizeof(IF_INDEX));
+            if (-1 != iTmpErr)
+            {
+                ulRet = dot11_usr_RadioEnable(ifIndex, pstPcb);
+            }
+            break;
+        }
+        /* DOdsaf: radio ifIndex */
+        case DOT11_OPTION_DISABLEPRO:
+        {
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+            int a = b;
+            int c = d;
+        }
+
+    return 0;
+}
+"""

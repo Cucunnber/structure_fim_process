@@ -33,31 +33,31 @@ ULONG slsp_cli_ParseIngressLsp(IN VOID *pCfgMsg)
 //    }
 
 
-//    MOR_ScanParaFromMsg(pCfgMsg, uiBlkSeqNo, uiMOR, pParaInfo)
-//    {
-//        switch (uiMOR)
-//        {
-//            case MOR_SLSP_INGRESS_NAME:
-//            {
-//                /* 获取lsp-name */
-//                (VOID)MOR_GetDataFromPara(pParaInfo, SLSP_MAX_LSPNAME_NEW_LENGTH + 1, stSlsp.szLspName);
-//                stSlsp.enLspType = SLSP_TYPE_INGRESS;
-//                break;
-//            }
-//            case MOR_SLSP_INGRESS_DESTADDR:
-//            {
-//                /* 获取dest-address */
-//                *pDestAddr = htonl(MOR_GetData32(pParaInfo));
-//                break;
-//            }
-//            default:
-//            {
-//                /* 不能识别的OID */
-//                DBGASSERT(0);
-//                break;
-//            }
-//        }
-//    }
+    MOR_ScanParaFromMsg(pCfgMsg, uiBlkSeqNo, uiMOR, pParaInfo)
+    {
+        switch (uiMOR)
+        {
+            case MOR_SLSP_INGRESS_NAME:
+            {
+                /* 获取lsp-name */
+                (VOID)MOR_GetDataFromPara(pParaInfo, SLSP_MAX_LSPNAME_NEW_LENGTH + 1, stSlsp.szLspName);
+                stSlsp.enLspType = SLSP_TYPE_INGRESS;
+                break;
+            }
+            case MOR_SLSP_INGRESS_DESTADDR:
+            {
+                /* 获取dest-address */
+                *pDestAddr = htonl(MOR_GetData32(pParaInfo));
+                break;
+            }
+            default:
+            {
+                /* 不能识别的OID */
+                DBGASSERT(0);
+                break;
+            }
+        }
+    }
 
     /* 判断是否是二阶段生效模式do操作 */
     ulView = getCurrentViewMode();

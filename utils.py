@@ -30,6 +30,52 @@ def get_fim_span(char_seq, idx1, idx2):
     return prefix, middle, suffix
 
 
+def get_fim_span_(char_seq, idx1, idx2):
+    """
+    get fim span skipping '{' & '}' & '\n'
+    """
+    i1, i2 = idx1+1, idx2-1
+    while True:
+        if char_seq[i1] == ' ' or char_seq[i1] == '\n' or char_seq[i1] == '\t':
+            i1 += 1
+        else:
+            break
+
+    while True:
+        if char_seq[i2] == ' ' or char_seq[i2] == '\n' or char_seq[i2] == '\t':
+            i2 -= 1
+        else:
+            break
+
+    assert i1 < i2
+
+    prefix = char_seq[: i1]
+    middle = char_seq[i1:i2]
+    suffix = char_seq[i2:]
+
+    return prefix, middle, suffix
+
+
+def get_fim_span_half(char_seq, idx1, idx2):
+    """
+    get fim span skipping '{' & '}' & '\n'
+    """
+    i1 = idx1+1
+    while True:
+        if char_seq[i1] == ' ' or char_seq[i1] == '\n' or char_seq[i1] == '\t':
+            i1 += 1
+        else:
+            break
+
+    assert i1 < idx2
+
+    prefix = char_seq[: i1]
+    middle = char_seq[i1:idx2]
+    suffix = char_seq[idx2:]
+
+    return prefix, middle, suffix
+
+
 def build_byte_to_char_map(byte_sequence):
     byte_to_char_map = []
     char_sequence = byte_sequence.decode('utf-8')
